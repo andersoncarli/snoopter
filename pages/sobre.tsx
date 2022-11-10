@@ -1,13 +1,13 @@
 import Contador from '../components/Contador';
 
-function Home() {
+function Sobre() {
   return (
     <>
-    <h1>Home2</h1>
+    <h1>Sobre</h1>
     <Contador/>
-    <a href="/sobre">Sobre</a>
+    <a href="/">Home</a>
     </>
   )
 }
 
-export default Home
+export default Sobre
