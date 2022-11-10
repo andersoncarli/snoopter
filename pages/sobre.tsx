@@ -1,11 +1,12 @@
+import Link from "next/link";
 import Contador from '../components/Contador';
 
 function Sobre() {
   return (
     <>
-    <h1>Sobre</h1>
-    <Contador/>
-    <a href="/">Home</a>
+      <h1>Sobre</h1>
+      <Contador />
+      <Link href="/"> Home </Link>
     </>
   )
 }
