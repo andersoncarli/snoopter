@@ -1,0 +1,390 @@
+<html style="box-sizing=border-box;">
+
+<head>
+  <title>JMESPath Browser</title>
+  <script src="jquery.js"></script>
+  <script src="jmespath.min.js"></script>
+  <!-- <script src="../../lib/codemirror/lib/codemirror.js"></script>
+  <script src="../../lib/codemirror/mode/javascript/javascript.js"></script>
+  <link rel="stylesheet" href="../lib/codemirror/lib/codemirror.css"> -->
+
+</head>
+<style>
+  * {
+    outline: thin solid
+    /* box-sizing: border-box; */
+  }
+
+  div {
+    display: flex;
+    flex: 1;
+    padding: 4px;
+    /* margin: 4px; */
+  }
+
+  textarea {
+    flex: 1;
+    padding: 8px;
+    white-space: nowrap;
+    overflow-x: hidden;
+  }
+
+  /* .codeArea {
+    flex: 1 1 auto;
+    margin-top: 0;
+    height: 100%;
+    position: relative;
+  } */
+
+  /* .CodeMirror {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+  } */
+</style>
+
+<body style="display:flex; flex-flow: column; height: 100%; margin: 0; ">
+
+  <div id='container' style="flex-flow: column;">
+    <div style="flex:none">
+      <input id="expression" value='body[0].expression.body.body[?kind=="var"].expression[?type!="Identifier"].left'
+        type="text" style="flex:1;padding: 4px" />
+    </div>
+
+    <div style="flex:1">
+      <textarea id='children'></textarea>
+    </div>
+
+    <div style="display:flex; flex:3; flex-flow: row;">
+
+      <textarea id="input" style="display:flex; flex:1.2; "></textarea>
+
+      <div style="width: 0px; flex:0; "></div>
+
+      <textarea id="result"></textarea>
+    </div>
+
+    <textarea id='log'></textarea>
+
+    <!-- <div class=“codeArea” style="display:flex; position:relative"> -->
+    <!-- <div id=codeArea style="position:absolute; height:100%"></div> -->
+    <!-- <textarea id=codeArea></textarea> -->
+    <!-- </div> -->
+
+  </div>
+</body>
+
+<script>
+
+  if (console.log) {
+    const old = console.log;
+    log = console.log = function (str) {
+      old(str);
+      $('#log').append(str + '\n')
+      // append line to codemirror
+      // editor.replaceRange(myString, CodeMirror.Pos(editor.lastLine())
+    }
+  }; log('teste')
+
+  var AST = {
+    "type": "Program",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ArrowFunctionExpression",
+          "id": null,
+          "params": [
+            {
+              "type": "AssignmentPattern",
+              "left": {
+                "type": "Identifier",
+                "name": "value",
+                "range": [
+                  1,
+                  6
+                ]
+              },
+              "right": {
+                "type": "Literal",
+                "value": 0,
+                "raw": "0",
+                "range": [
+                  9,
+                  10
+                ]
+              },
+              "range": [
+                1,
+                10
+              ]
+            },
+            {
+              "type": "AssignmentPattern",
+              "left": {
+                "type": "Identifier",
+                "name": "period",
+                "range": [
+                  12,
+                  18
+                ]
+              },
+              "right": {
+                "type": "Literal",
+                "value": 10,
+                "raw": "10",
+                "range": [
+                  21,
+                  23
+                ]
+              },
+              "range": [
+                12,
+                23
+              ]
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "VariableDeclaration",
+                "declarations": [
+                  {
+                    "type": "VariableDeclarator",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "alpha",
+                      "range": [
+                        36,
+                        41
+                      ]
+                    },
+                    "init": {
+                      "type": "BinaryExpression",
+                      "operator": "/",
+                      "left": {
+                        "type": "Literal",
+                        "value": 2,
+                        "raw": "2",
+                        "range": [
+                          44,
+                          45
+                        ]
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "+",
+                        "left": {
+                          "type": "Literal",
+                          "value": 1,
+                          "raw": "1",
+                          "range": [
+                            49,
+                            50
+                          ]
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "period",
+                          "range": [
+                            53,
+                            59
+                          ]
+                        },
+                        "range": [
+                          49,
+                          59
+                        ]
+                      },
+                      "range": [
+                        44,
+                        60
+                      ]
+                    },
+                    "range": [
+                      36,
+                      60
+                    ]
+                  }
+                ],
+                "kind": "var",
+                "range": [
+                  32,
+                  60
+                ]
+              },
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "operator": "=",
+                  "left": {
+                    "type": "Identifier",
+                    "name": "calc",
+                    "range": [
+                      63,
+                      67
+                    ]
+                  },
+                  "right": {
+                    "type": "ArrowFunctionExpression",
+                    "id": null,
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "name": "v",
+                        "range": [
+                          71,
+                          72
+                        ]
+                      }
+                    ],
+                    "body": {
+                      "type": "AssignmentExpression",
+                      "operator": "+=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "value",
+                        "range": [
+                          77,
+                          82
+                        ]
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "*",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "-",
+                          "left": {
+                            "type": "Identifier",
+                            "name": "v",
+                            "range": [
+                              87,
+                              88
+                            ]
+                          },
+                          "right": {
+                            "type": "Identifier",
+                            "name": "value",
+                            "range": [
+                              91,
+                              96
+                            ]
+                          },
+                          "range": [
+                            87,
+                            96
+                          ]
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "alpha",
+                          "range": [
+                            100,
+                            105
+                          ]
+                        },
+                        "range": [
+                          86,
+                          105
+                        ]
+                      },
+                      "range": [
+                        77,
+                        105
+                      ]
+                    },
+                    "generator": false,
+                    "expression": true,
+                    "async": false,
+                    "range": [
+                      70,
+                      105
+                    ]
+                  },
+                  "range": [
+                    63,
+                    105
+                  ]
+                },
+                "range": [
+                  63,
+                  105
+                ]
+              }
+            ],
+            "range": [
+              28,
+              107
+            ]
+          },
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "range": [
+            0,
+            107
+          ]
+        },
+        "range": [
+          0,
+          107
+        ]
+      }
+    ],
+    "sourceType": "script",
+    "range": [
+      0,
+      107
+    ]
+  }
+
+  $('#input').text(JSON.stringify(AST, null, 1))
+  $('#expression').bind('keyup', evaluate)
+  $('#input').bind('keyup', evaluate)
+
+  function evaluate() {
+    $('#log').text('')
+
+    var expression = $('#expression').val() || '*';
+
+    var inputData = JSON.parse($('#input').val());
+    try {
+      var result = jmespath.search(inputData, expression)
+      if (!result) return
+      $('#result').text(JSON.stringify(result, '', 1))
+      result.forEach((e) => {
+        if ((e instanceof Object)) {
+          let s = JSON.stringify(Object.keys(e))
+          $('#children').text(s)
+          log(s)
+        }
+      })
+    } catch (error) {
+      log('Error:' + JSON.stringify(error, null, 2));
+    }
+  }; evaluate()
+
+  // CodeMirror.fromTextArea($('#codeArea')[0])
+
+  // CodeMirror($('#log')[0], {
+  //   autoMatchParens: false,
+  //   lineNumbers: true,
+  //   mode: "coffeescript",
+  //   passDelay: 50,
+  //   tabMode: "shift"
+  // });
+
+  // console.log(JSON.stringify(CodeMirror))
+  // CodeMirror.fromTextArea($('#result'), {
+  //   mode: "javascript",
+  //   readOnly: "nocursor"
+  // });
+</script>
+
+</html>

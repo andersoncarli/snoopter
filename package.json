@@ -4,7 +4,7 @@
   "description": "A data analysis tool for bigdata",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev"
+    "dev": "NODE_OPTIONS='--inspect' next dev"
   },
   "repository": {
     "type": "git",
