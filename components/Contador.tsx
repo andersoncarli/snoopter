@@ -1,0 +1,17 @@
+import { useState } from 'react'
+
+function Contador() {
+  const [contador, setContador] = useState(1)
+  return (
+    <div>
+      <div>{contador}</div>
+      <button onClick={mais1}>Adicionar</button>
+    </div>
+  )
+
+  function mais1() {
+    setContador(contador + 2)
+  }
+}
+
+export default Contador
