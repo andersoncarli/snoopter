@@ -4,7 +4,10 @@
   "description": "A data analysis tool for bigdata",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev"
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"  
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,9 @@
   "devDependencies": {
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.8",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.2",
     "typescript": "4.8.4"
   }
 }

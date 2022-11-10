@@ -10,3 +10,4 @@
 
 #### Other
 - [Keep Component Stte Across Pages](https://javascript.plainenglish.io/next-js-keep-state-7eb68984c54e)
+- [How to build a Nextjs application with MongoDB and deploy on Vercel](https://www.section.io/engineering-education/build-nextjs-with-mongodb-and-deploy-on-vercel/#laying-out-the-postcards-and-a-navbar)
