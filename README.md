@@ -1,1 +1,1 @@
-Snoopter is a data analisys system intended to snoop public big datasets.
+Snoopter is a data analisys system intended to snoop bigdata.
