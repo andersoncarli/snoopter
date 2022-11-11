@@ -20,8 +20,8 @@ export async function getStaticPaths() {
       { params: { id: '2' } }
     ],
     // fallback: false, // retorna 404 para qq outo id
-    fallback: true,  // geração assíncrona
-    // fallback: 'blocking', // geração síncrona
+    // fallback: true,  // geração assíncrona
+    fallback: 'blocking', // geração síncrona
   }
 }
 
