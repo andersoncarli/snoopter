@@ -1,4 +1,6 @@
 # MongoDB Cheat Sheet
+MongoDB is a General Pupose database with flexible schema design. Uses Json Scalabe with load balancing. Native replication.
+Not Only SQL. Represents the hierachical relationship.
 
 ### Linux Packages
     sudo apt-get install -y mongodb-org
@@ -17,13 +19,18 @@
     mongosh mongodb://localhost:27017/
     mongosh mongodb+srv://myapp:password@cluster0.qqw8xua.mongodb.net/
 
-### Mongo Import
+### Mongo import
     mongoimport --uri mongodb://localhost:27017/test --collection restaurants --type json --file ./restaurants.json
     mongoimport --uri mongodb://localhost:27017/bitmex --collection trades --type tsv --file ~/data/bot/bitmex/trades.tsv --headerline
 
-### Use a Database
+### Use a database
 
     use('invoice')
+
+### List databases
+   show dbs // in the shell
+
+   db.admin().listDatabases // in node
 
 ### Delete database
 
@@ -44,8 +51,117 @@
         "type": "cases"
     })
 
+    db.createCollection(
+    "<viewName>",
+    {
+        "viewOn" : "<source>",
+        "pipeline" : [<pipeline>],
+        "collation" : { <collation> }
+    }
+    )
+
+### [db.createView()](https://www.mongodb.com/docs/manual/core/views/create-view/#std-label-manual-views-create)
+    db.createView(
+        "<viewName>",
+        "<source>",
+        [<pipeline>],
+        {
+            "collation" : { <collation> }
+        }
+    )
+
+    db.createView(
+        "firstYears",
+        "students",
+        [ { $match: { year: 1 } } ]
+    )
+
 ### Delete a collection
     db.user.drop()
+
+### Insert a single document in a collection
+    db.products.insertOne({
+        "_id": 1,
+        "item": "Banana",
+        "categories": ["food", "produce", "grocery"],
+        "location": "4th Street Store",
+        "stock": 4,
+        "type": "cases"
+    })
+
+### Update a single document in a collection
+
+    db.collection.updateOne(
+        <filter>, // {id:1}
+        <update>, // {$set:{empName:"New Name"}}
+        {
+            upsert: <boolean>,
+            writeConcern: <document>,
+            collation: <document>,
+            arrayFilters: [ <filterdocument1>, ... ],
+            hint:  <document|string>        // Available starting in MongoDB 4.2.1
+        }
+    )
+
+    db.posts.updateOne({title:"Post 1", $set: {category: Tech})
+
+[### db.coll.updateMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/)
+
+    db.coll.updateMany({}, { $inc{ likes:1 }} )
+
+    db.restaurant.updateMany(https://www.mongodb.com/docs/manual/reference/operator/update/
+      { violations: { $gt: 4 } }, // filter
+      { $set: { "Review" : true } }
+    );
+
+### [update operators ](https://www.mongodb.com/docs/manual/reference/operator/update/)
+    $currentDate $inc $min $max $mul $rename $set $setOnInsert $unset
+
+    Array Operators $ $[] $[<identifier>] $addToSet $pop $pull $push $pullAll
+
+    Modifiers $each $position $slice $sort $push
+
+    Bitwise $bit Performs bitwise AND, OR, and XOR updates of integer values.
+
+### [findAndModify](https://www.mongodb.com/docs/manual/reference/method/db.collection.findAndModify/)
+
+    db.people.findAndModify({
+        query: { name: "Tom", state: "active", rating: { $gt: 10 } },
+        sort: { rating: 1 },
+        update: { $inc: { score: 1 } }
+    })
+
+    db.students.findAndModify( {
+    query: {  "_id" : 1 },
+    update: [ { $set: { "total" : { $sum: "$grades.grade" } } } ],  // The $set stage is an alias for ``$addFields`` stage
+    new: true
+    } )
+
+    db.employees.updateMany({salary:8500}, { $inc: {salary: 500}})
+
+    db.employees.updateMany({_id:2}, { $set: {lastName:"Tendulkar", email:"sachin.tendulkar@abc.com"}})
+
+### deleteOne, deleteMany
+
+
+### [db.collection.bulkWrite](https://www.mongodb.com/docs/manual/reference/method/db.collection.bulkWrite/)
+
+Inserts a single document into the collection.
+
+db.collection.bulkWrite( [
+   { insertOne : { "document" : <document> } }
+] )
+
+db.collection.bulkWrite(
+   [
+      { insertOne : <document> },
+      { updateOne : <document> },
+      { updateMany : <document> },
+      { replaceOne : <document> },
+      { deleteOne : <document> },
+      { deleteMany : <document> }
+   ]
+)
 
 ### cl.find(query, projection);
 // query - query for filtering out the data
@@ -75,16 +191,47 @@ The 12-byte ObjectId consists of:
 - A 3-byte incrementing counter, initialized to a random value.
 
 ## Aggregations
+
+
 [Fetch Data from Different Collections with Aggregation](https://medium.com/fasal-engineering/fetching-data-from-different-collections-via-mongodb-aggregation-operations-with-examples-a273f24bfff0)
 
-### cl.aggregate(pipeline, options)
+### [Aggregation Pipeline](https://www.mongodb.com/docs/manual/core/aggregation-pipeline/)
+
 - pipeline - A sequence of data aggregation operations or stages.
 - options - An optional configuration applicable for multiple operations in pipeline and it's used to optimize or setting rules for executing the query, it doesn't do any data processing
 
-### $match
+![aggregate](Mongodb.webp)
+
+    pipeline = [
+        { $match : { … } },
+        { $group : { … } },
+        { $sort : { … } }
+       ]
+
+    db.universities.aggregate([
+        { $match : { country : 'Spain', city : 'Salamanca' } }
+    ]).pretty()
+
+    db.sales.aggregate([
+    {
+       $group:
+        {
+            _id: "$item",
+            avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+            avgQuantity: { $avg: "$quantity" }
+        }
+     }]
+)
+
+
+### [$match](https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/#mongodb-pipeline-pipe.-match)
+
+    { $match: { $expr: { <aggregation expression> } } }
+
     db.users.aggregate([{
         $match: {$expr: {$eq: [‘ID’, ‘123' ] }
     }]);
+
     // equivalent of
     db.users.find({ID: ‘123'})
 
