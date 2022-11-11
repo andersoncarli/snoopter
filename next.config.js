@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true, // problems with useEffect & useLayoutEffect
   swcMinify: true,
 }
 

@@ -4,7 +4,6 @@ function Contador() {
   const [contador, setContador] = useState(1)
 
   useEffect(() => { // fired on State changes
-    console.log('useEffect')
     document.title = `You clicked ${contador} times`;
   });
 
