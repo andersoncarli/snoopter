@@ -1,4 +1,4 @@
-function Tempo(props) {
+function Tempo(props: any) {
   const dynDateString = (new Date()).toUTCString()
 
   return <>

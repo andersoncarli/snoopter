@@ -5,7 +5,7 @@ function Contador() {
 
   useEffect(() => { // fired on State changes
     document.title = `You clicked ${contador} times`;
-  });
+  }, [contador]);
 
   return (
     <div>

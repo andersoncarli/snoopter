@@ -1,22 +1,22 @@
 // https://javascript.plainenglish.io/next-js-keep-state-7eb68984c54e
 import { useState, useEffect, useLayoutEffect } from 'react'
 
-export default function button() {
+function Button() {
   const [count, setCount] = useState(0)
 
-  if (typeof window !== "undefined") {
-    useLayoutEffect(() => {
-      if (sessionStorage.getItem('state')) {
-        setCount(Number(sessionStorage.getItem('state')))
-      } else {
-        sessionStorage.setItem('state', count.toString())
-      }
-    }, [])
-
-    useEffect(() => {
+  // if (typeof window !== "undefined") {
+  useLayoutEffect(() => {
+    if (sessionStorage.getItem('state')) {
+      setCount(Number(sessionStorage.getItem('state')))
+    } else {
       sessionStorage.setItem('state', count.toString())
-    }, [count])
-  }
+    }
+  }, [count])
+
+  useEffect(() => {
+    sessionStorage.setItem('state', count.toString())
+  }, [count])
+  // }
 
   return (
     <>
@@ -25,3 +25,4 @@ export default function button() {
     </>
   )
 }
+export default Button

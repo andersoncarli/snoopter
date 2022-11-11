@@ -1,11 +1,15 @@
 
 import { useState, useEffect } from "react";
 
-const useFormattedDate = (date) => { // https://stackoverflow.com/a/73006128/9464885
-  const [r, setFormattedDate] = useState(null);
+const useFormattedDate = (date: any) => { // https://stackoverflow.com/a/73006128/9464885
+  const [r, setFormattedDate] = useState('');
 
-  useEffect(
-    () => setFormattedDate(new Date(date).toLocaleString("en-US")), []
+  useEffect(() => {
+    let d = new Date(date)
+      , s = d.toLocaleString("en-US")
+      setFormattedDate(s)
+      //eslint-disable-next-line
+  }, []
   );
 
   return r;
