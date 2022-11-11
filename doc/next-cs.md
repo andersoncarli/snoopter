@@ -1,3 +1,12 @@
+## getStaticProps
+  Roda em tempo de build
+
+## getServerSideProps
+  Roda no servidor em tempo de execução
+
+## getStaticPaths
+  Gera novas paginas estáticas em tempo de execução
+
 ## References
 
 #### Filipe Deschamps Series

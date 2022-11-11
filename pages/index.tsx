@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from '../styles/Home.module.css'
 
 import Contador from '../components/Contador';
-import Button from '../components/Button'
+// import Button from '../components/Button'
 
 function Home() {
   return (
@@ -11,7 +11,7 @@ function Home() {
       <h1>
         Home
       </h1>
-      <Button></Button>
+      {/* <Button></Button> */}
       <Contador />
       <Link href="/sobre"> Sobre</Link>
     </div>
