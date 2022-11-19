@@ -361,3 +361,31 @@ use insertOne, insertMany, updateOne, or updateMany instead.
 - Separating data that is used together
 
 https://www.markdownguide.org/basic-syntax/
+
+## [vercel & mongodb](https://www.youtube.com/watch?v=JIlYroSsInU&t=26s)
+
+* npx create-next-app --example with-mongodb . -y
+* publish on github (in vscode init)
+* create a new project on vercel dashboard (https://vercel.com/my-proj)
+* connect the app to github
+* (deploy now will fail because missing mongodb integration)
+* [Add MongoDB Integration on the project](https://vercel.com/snoopter/vercel-mongo/settings/integrations)
+* a MONGODB_URI environment variable will be created at the production .env
+* at this point we must create a MONGODB_URI variable on our local .env file with
+
+      npm i -g vercel (install vercel cli)
+      vercel (call vercel cli)
+      atlas auth login (if not lo)
+      vercel env pull (copy the .env from prodution)
+
+
+
+
+
+
+
+
+
+
+
++*

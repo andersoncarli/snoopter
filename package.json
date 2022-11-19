@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/snoopter/snoopter#readme",
   "dependencies": {
-    "next": "^13.0.2",
+    "mongodb": "^4.12.0",
+    "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vercel": "^19.1.2"
   },
   "devDependencies": {
     "@types/node": "18.11.9",
