@@ -11,3 +11,7 @@ create manually the repository `my_repo` on https://bitbucket.org/dashboard/repo
 then
 
     git clone git@bitbucket.org:bittnkr/my_repo.git
+
+### Add a submodule
+
+    git submodule add git@bitbucket.org:bittnkr/utils.git
