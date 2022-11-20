@@ -27,7 +27,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   // uma demora artifical para demonstrar fallback true e blocking
-  await delay((5000))
+  // await delay((5000))
 
   const id = ctx.params.id;
   return {
