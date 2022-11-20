@@ -1,0 +1,21 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Create a new database.
+use('sample_restaurants');
+
+// Create a new collection.
+db.restaurants
+  .find()
+  .limit(1)
+  .toArray()
+
+// db.restaurants
+//   .find()
+//   // .project({
+//   //   grades: 0,
+//   //   borough: 0,
+//   //   restaurant_id: 0,
+//   // })
+//   .limit(8)
+//   .toArray()
