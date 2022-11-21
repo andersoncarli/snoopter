@@ -25,7 +25,7 @@ export async function getServerSideProps() {
   try {
     const { db } = await connectToDatabase("sample_mflix");
 
-    console.log('getServerSideProps', db)
+    // console.log('getServerSideProps', db)
 
     const movies = await db
       .collection("movies")
