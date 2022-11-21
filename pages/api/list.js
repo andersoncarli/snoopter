@@ -1,16 +1,10 @@
-// import { MongoClient } from "mongodb";
-// import connectToDatabase from "../../lib/connectToDatabase";
-import clientPromise from "../../lib/mongodb";
-
-// console.log(connectToDatabase)
+import { connectToDatabase } from "../../lib/mongodb";
 
 export default async function handler(request, response) {
   try {
+    const { db } = await connectToDatabase("sample_restaurants");
     // console.log('list*')
-    const mongoClient = await clientPromise //connectToDatabase()
     // console.log(mongoClient)
-
-    const db = mongoClient.db('sample_restaurants')
 
     const collection = db.collection('restaurants')
 

@@ -1,6 +1,5 @@
 // https://www.mongodb.com/developer/languages/javascript/nextjs-with-mongodb/
-
-import clientPromise from "../lib/mongodb";
+import { connectToDatabase } from "../lib/mongodb";
 
 export default function Movies({ movies }) {
   return (
@@ -24,8 +23,9 @@ export default function Movies({ movies }) {
 
 export async function getServerSideProps() {
   try {
-    const client = await clientPromise;
-    const db = client.db("sample_mflix");
+    const { db } = await connectToDatabase("sample_mflix");
+
+    console.log('getServerSideProps', db)
 
     const movies = await db
       .collection("movies")

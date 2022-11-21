@@ -1,4 +1,4 @@
-import clientPromise from "../lib/mongodb";
+import { connectToDatabase } from "../lib/mongodb";
 
 export default function Top({ movies }) {
   return (
@@ -22,8 +22,7 @@ export default function Top({ movies }) {
 
 export async function getStaticProps() {
   try {
-    const client = await clientPromise;
-    const db = client.db("sample_mflix");
+    const { db } = await connectToDatabase("sample_mflix");
 
     const movies = await db
       .collection("movies")
