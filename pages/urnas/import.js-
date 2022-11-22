@@ -1,0 +1,21 @@
+// node ./import.js mongodb+srv://myapp:teste123@cluster0.qqw8xua.mongodb.net/ myfile.tsv
+// const uri = "mongodb://127.0.0.1:27017/test";
+// require(__dirname + '/utils')
+require('./utils')
+
+const [, , uri, source] = process.argv
+
+assert(uri.match(/^mongodb:/),'The first param must be a mongo server address like mongodb://localhost:27017/')
+assert(F.exists(source),'The second parameter must be a text file (json, csv, tsv')
+
+TextToMongo(uri, source)
+
+async function TextToMongo(uri, source) {
+  const { MongoClient, ServerApiVersion } = require('mongodb');
+  const op = { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 }
+  const client = new MongoClient(uri, op);
+  await client.connect()
+
+  
+  await client.close();
+}

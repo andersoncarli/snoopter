@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import { connectToDatabase } from '../lib/mongodb'
 import { InferGetServerSidePropsType } from 'next'
 
@@ -32,8 +33,8 @@ export default function Home({ isConnected }: InferGetServerSidePropsType<typeof
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
+        <h1>
+          First MongoDB!
         </h1>
         <div className="grid">
           {
@@ -54,7 +55,7 @@ export default function Home({ isConnected }: InferGetServerSidePropsType<typeof
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
+          <Image src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
       </footer>
 

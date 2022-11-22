@@ -1,0 +1,63 @@
+const Eleicao = {
+  id: 'CD_ELEICAO',
+  descricao: 'DS_ELEICAO',
+  ano: 'ANO_ELEICAO',
+  tipo: 'NM_TIPO_ELEICAO',
+  pleito: 'CD_PLEITO',
+  data: 'DT_PLEITO',
+  turno: 'NR_TURNO',
+  cargo: 'DS_CARGO_PERGUNTA',
+  pergunta: {
+    id: 'CD_CARGO_PERGUNTA',
+    cargo: 'DS_CARGO_PERGUNTA',
+  },
+  partidos: [{
+    numero: 'NR_PARTIDO',
+    nome: 'NM_PARTIDO',
+    sigla: 'SG_PARTIDO',
+  }],
+  ufs: [{
+    sigla: 'SG_UF',
+    arquivo: {
+      data: 'DT_GERACAO',
+      hora: 'HH_GERACAO'
+    },
+    municipios: [{
+      id: 'CD_MUNICIPIO',
+      nome: 'NM_MUNICIPIO',
+      secoes: [{
+        id: 'NR_ZONA' + '.' + 'NR_LOCAL_VOTACAO' + '.' + 'NR_SECAO',
+        aptos: 'QT_APTOS',
+        comparecimentos: 'QT_COMPARECIMENTO',
+        abstencoes: 'QT_ABSTENCOES',
+        urnas: [{
+          numero: 'NR_URNA_EFETIVADA',
+          tipo: 'DS_TIPO_URNA',
+          carga1: 'CD_CARGA_1_URNA_EFETIVADA',
+          carga2: 'CD_CARGA_2_URNA_EFETIVADA',
+          flahcard: 'CD_FLASHCARD_URNA_EFETIVADA',
+          dataCarga: 'DT_CARGA_URNA_EFETIVADA',
+          dataBU: 'DT_BU_RECEBIDO',
+          modelo: () => modeloUrna(this.numero),
+          votos: [{
+            tipo: 'CD_TIPO_VOTAVEL',
+            descricao: 'DS_TIPO_VOTAVEL',
+            numero: 'NR_VOTAVEL',
+            nome: 'NM_VOTAVEL',
+            quantidade: 'QT_VOTOS',
+          }]
+        }],
+        cargoPergunta: 'DS_CARGO_PERGUNTA_SECAO',
+        agregadas: 'DS_AGREGADAS',
+        abertura: 'DT_ABERTURA',
+        encerramento: 'DT_ENCERRAMENTO',
+        eleitoresBiometria: 'QT_ELEITORES_BIOMETRIA_NH'
+      }], // secoes
+    }] // municipios
+  }]// ufs
+}// Eleição
+
+// const flatten = (obj, roots = [], sep = '.') => Object.keys(obj).reduce((memo, prop) => Object.assign({}, memo, Object.prototype.toString.call(obj[prop]) === '[object Object]' ? flatten(obj[prop], roots.concat([prop]), sep) : { [roots.concat([prop]).join(sep)]: obj[prop] }), {})
+// console.log(flatten(Eleicao))
+
+module.exports = { Eleicao }

@@ -1,0 +1,228 @@
+#!/usr/bin/env node
+console.log('\x1Bc');
+require('dotenv').config()
+require(__dirname + '/utils');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const fs = require('fs');
+
+(async function () {
+  log.write(cl('r+', '🔎 Election Lens 🔍\n'),
+    'Análise de dados abertos pela Justiça Eleitorial.\n',
+    cl('c', 'https://dadosabertos.tse.jus.br/dataset\n'),
+  )
+
+  log('mongo server:', cl(process.env.MONGODB_URI))
+
+  const client = new MongoClient(process.env.MONGODB_URI)
+  await client.connect()
+
+  var db = client.db('eleicao2022'), header = '', prev = {}
+  var
+    Eleicoes = {}, // await (await db.collection('Eleicao').find()).toArray(),
+    Eleicao = {},
+    Secao = { urnas: [] },
+    Secoes = [],
+    Urna = { votos: [] },
+    Urnas = [],
+    Partido = {},
+    Partidos = {},//await (await db.collection('Partidos').find()).toArray(),
+    UF = { municipios: [] },
+    Municipio = {},
+    Municipios = []
+
+  log('database:', cl(db.databaseName))
+
+  include.addPath('./2022')
+  const Estados = include('./estados.json')
+
+  for (let uf in Estados) {
+    let estado = Estados[uf]
+    if (!estado.totals) {
+      let result = await importFile(uf)
+      let s = JSON.stringify(Estados, null, 2)
+      F.writeFile(__dirname + '2022/estados.json', s);
+    } else log.write(uf)
+  }
+
+  // importFile: load a data file (per state) Datato the database
+  async function importFile(uf) {
+    return promise(async (resolve, reject) => {
+      await client.connect() // create a new connection to each file to ensure full data flushing
+      db = client.db('eleicao2022')
+
+      let file = `${__dirname}/2022/zip/bweb_2t_${uf}_311020221535.zip`
+      let csv = `bweb_2t_${uf}_311020221535.csv`
+
+      let lines = new BufferLines(importRecord)
+      F.unzip(file, csv, (name, stream) => {
+        stream.on('data', (chunk, i) =>
+          lines.push(chunk))
+        stream.on('end', (data) => {
+          flush(uf)
+          resolve(true)
+        });
+      })
+    })
+  }
+
+  function flush(uf) {
+    // salvar um json por estado.
+    let res = {
+      Eleicao,
+      Municipios,
+      Secoes,
+      Urnas,
+      Partidos,
+      UF,
+    }
+    let s = JSON.stringify(res, null, 2)
+    let file = __dirname + `/2022/json/${uf}.json`
+    debug(file)
+    F.writeFile(file, s);
+    Eleicao = {}
+    Municipios = []
+    Secoes = []
+    Urnas = []
+    Partidos = []
+    UF = []
+  }
+
+  // import a single line of
+  async function importRecord(line, i, a) {
+    // log.write(i + ' ')
+    // const collections = await db.getCollectionNames()
+    // debug(line)
+    line = line.replace(/["']/g, '').split(';')
+    if (i == 0) return header = line
+
+    const o = {}
+    line.forEach((v, i, a) => o[header[i]] = v)
+
+    if (o["CD_ELEICAO"] != prev["CD_ELEICAO"]) {
+      // if (prev["CD_ELEICAO"])
+      //   await db.collection("Eleicao").insertOne(Eleicao)
+      Eleicao._id = o["CD_ELEICAO"] | 0
+      Eleicao.ano = o["ANO_ELEICAO"] | 0
+      Eleicao.tipo_id = Number(o["CD_TIPO_ELEICAO"] | 0)
+      Eleicao.tipo = o["NM_TIPO_ELEICAO"]
+      Eleicao.pleito = o["CD_PLEITO"] | 0
+      Eleicao.data = o["DT_PLEITO"]
+      Eleicao.turno = o["NR_TURNO"] | 0
+      Eleicao.descricao = o["DS_ELEICAO"]
+      Eleicao.cargo = o["DS_CARGO_PERGUNTA"]
+      // let coll = await db.collection("Eleicao")
+      // await coll.updateOne(*
+      //   { _id: Number(o["CD_ELEICAO"]) },
+      //   { $setOnInsert: Eleicao },
+      //   { upsert: true },
+      // )
+      // let eleicao = (await coll.find())
+      // eleicao = await eleicao.toArray()
+      // debug(Eleicao)
+    }
+
+    // if (prev["SG_UF"] && o["SG_UF"] != prev["SG_UF"]) {
+    //   // if (prev["SG_UF"]) {
+    //   //   await db.collection('UF').insertOne(UF)
+    //   // }
+    //   UF['sigla'] = o["SG_UF"]
+    //   UF.data_arquivo = o["DT_GERACAO"] + ' ' + o["HH_GERACAO"]
+    // }
+
+    if (o["CD_MUNICIPIO"] != prev["CD_MUNICIPIO"]) {
+      if (prev["CD_MUNICIPIO"]) {
+        Municipios.push({ ...Municipio })
+        // UF.municipios.push(Municipio['_id'])
+        // await db.Municipio.insertOne(Municipio)
+      }
+      Municipio['_id'] = o["CD_MUNICIPIO"] | 0
+      Municipio['nome'] = o["NM_MUNICIPIO"]
+      Municipio['uf'] = o["SG_UF"]
+    }
+
+    if (o["NR_SECAO"] != prev["NR_SECAO"]) {
+      if (prev["NR_SECAO"] && Secao._id) {
+        Secoes.push({ ...Secao })
+        Secao = { urnas: [] }
+        // await db.collection("Secao").insertOne(Secao)
+      }
+      Secao['_id'] = o["NR_ZONA"] + '.' + o["NR_LOCAL_VOTACAO"] + '.' + o["NR_SECAO"]
+      Secao['numero'] = o["NR_SECAO"] | 0
+      Secao['zona'] = o["NR_ZONA"] | 0
+      Secao['local'] = o["NR_LOCAL_VOTACAO"] | 0
+      Secao['uf'] = o["SG_UF"]
+      Secao['municipio'] = o["CD_MUNICIPIO"] | 0
+      Secao['aptos'] = o["QT_APTOS"] | 0
+      Secao['comparecimentos'] = o["QT_COMPARECIMENTO"] | 0
+      Secao['abstencoes'] = o["QT_ABSTENCOES"] | 0
+      Secao['cargoPergunta_id'] = o["CD_CARGO_PERGUNTA"] | 0
+      Secao['cargoPergunta'] = o["DS_CARGO_PERGUNTA_SECAO"]
+      // if (o["DS_AGREGADAS"] != "#NULO#") Secao['agregadas'] = o["DS_AGREGADAS"]
+      Secao['dataAbertura'] = o["DT_ABERTURA"]
+      Secao['dataEncerramento'] = o["DT_ENCERRAMENTO"]
+      Secao['eleitoresBiometria'] = o["QT_ELEITORES_BIOMETRIA_NH"] | 0
+    }
+
+    if (!Partidos[o["SG_PARTIDO"]]) {
+      Partido['_id'] = o["NR_PARTIDO"] | 0
+      Partido['numero'] = o["NR_PARTIDO"] | 0
+      Partido['sigla'] = o["SG_PARTIDO"]
+      Partido['nome'] = o["NM_PARTIDO"]
+      Partidos[o["SG_PARTIDO"]] = { ...Partido }
+    }
+
+    if (o["NR_URNA_EFETIVADA"] != prev["NR_URNA_EFETIVADA"]) {
+      if (prev["NR_URNA_EFETIVADA"]) {
+        Urnas.push({ ...Urna })
+        Secao.urnas.push(Urna._id)
+        Urna.votos = []
+        // await db.collection("Urna").insertOne(Urna)
+      }
+      Urna['_id'] = o["NR_URNA_EFETIVADA"] | 0
+      Urna['modelo'] = modeloUrna(o["NR_URNA_EFETIVADA"])
+      Urna['recebimento_bu'] = o["DT_BU_RECEBIDO"]
+      Urna['emissao_bu'] = o["DT_EMISSAO_BU"]
+      Urna['tipo_id'] = o["CD_TIPO_URNA"]
+      Urna['tipo'] = o["DS_TIPO_URNA"]
+      Urna['carga1'] = o["CD_CARGA_1_URNA_EFETIVADA"]
+      Urna['carga2'] = o["CD_CARGA_2_URNA_EFETIVADA"]
+      Urna['flahcard'] = o["CD_FLASHCARD_URNA_EFETIVADA"]
+      Urna['dataCarga'] = o["DT_CARGA_URNA_EFETIVADA"]
+    }
+
+    if (!Urna.votos[o["CD_TIPO_VOTAVEL"]]) {
+      let votavel = {
+        'tipo': o["CD_TIPO_VOTAVEL"] | 0,
+        'descricao': o["DS_TIPO_VOTAVEL"],
+        'numero': o["NR_VOTAVEL"] | 0,
+        'nome': o["NM_VOTAVEL"],
+        'quantidade': o["QT_VOTOS"] | 0,
+      }
+      Urna.votos.push(votavel)
+    }
+    // undefined = o["NR_JUNTA_APURADORA"]
+    // undefined = o["NR_TURMA_APURADORA"]
+    prev = o
+  }
+
+  function downloadEstado(uf) {
+    let zip = `https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2022/buweb/bweb_2t_${uf}_311020221535.zip`
+    let sha = zip + '.sha512'
+    let local = F.resolve(`./2022/zip/bweb_2t_${uf}_311020221535.zip`)
+    log('downloading:', zip, local)
+    wget(sha, local)
+    wget(zip, local)
+  }
+
+  // https://dadosabertos.tse.jus.br/dataset/correspondencia-entre-numero-interno-e-modelo-da-urna-1
+  function modeloUrna(numero) {
+    if (numero <= 1220500) return 2009
+    if (numero <= 1345500) return 2010
+    if (numero <= 1370500) return 2011
+    if (numero <= 1650000) return 2011
+    if (numero <= 1701000) return 2013
+    if (numero <= 1950000) return 2015
+    if (numero <= 2250000) return 2020
+  }
+  // console.log('execution time', new Date() - t)
+})();
