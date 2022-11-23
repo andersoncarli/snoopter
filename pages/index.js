@@ -14,9 +14,13 @@ export default function Home({ posts }) {
   return (
     <div>
       <Nav />
-
-      <Alert key='warning' variant='warning'>
-        This is a <strong>warning</strong> alert—check it out!
+      <Alert key='warning' variant='warning' >
+        <div >
+          This is a <strong>warning</strong> alert—check it out!
+          <div className="float-end">
+            <button type="button" className="btn-close" aria-label="Close" />
+          </div>
+        </div>
       </Alert>
 
       <main>

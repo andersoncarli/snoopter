@@ -1,3 +1,5 @@
+/* https://uxplanet.org/how-to-customize-bootstrap-b8078a011203 */
+
 html,
 body {
   padding: 10px;
@@ -12,7 +14,8 @@ body {
 } */
 
 * {
-  outline: thin dotted red;
+  /* outline: thin dotted red; */
+  /* background-color: black ; */
 }
 
 /* remove rounding from cards, buttons and inputs */
