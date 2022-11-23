@@ -4,46 +4,40 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Link from 'next/link'
 
-const menu = [
-  { title: "Home", path: '/' },
-  { title: "About", path: '/About' },
-  {
-    title: 'Dropdown Menu', id: 1, path: '', subMenu: [
-      { title: "Home", path: '/' },
-      { divider: true },
-      { title: "About", path: '/About' },
-    ]
-  }
-]
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { mainMenu, site } from '../config'
 
 const MenuItem = ({ title, path, subMenu, id }) => {
-  // console.log(title, path, Array.isArray(subMenu))
-  if (Array.isArray(subMenu)) {
+
+  const router = useRouter()
+
+  if (subMenu) {
+    const activeChild = subMenu.find((item) => (router.pathname == item.path))
+
     return (
-      <NavDropdown title={title} id={`nav-dropdown-${id}`}>
+      <NavDropdown title={title} id={`nav-dropdown-${id}`} active={activeChild}>
         {
           subMenu.map((item, index) => (
             <DropdownItem {...item} key={index} />
           ))
         }
-      </NavDropdown>
+      </NavDropdown >
     )
   }
 
-  // if (path)
-  return (<>
-    {console.log(title, path)}
-    <Nav.Link as={Link} href={path}>{title}</Nav.Link>
-  </>)
+  return <Nav.Link active={router.pathname == path} as={Link} href={path}>{title}</Nav.Link>
 }
 
 const DropdownItem = ({ title, path, divider }) => {
-  if (divider) {
+  const router = useRouter()
+
+  if (divider)
     return <NavDropdown.Divider />
-  }
-  return <NavDropdown.Item as={Link} href={path}>{title}</NavDropdown.Item>
+
+  return <NavDropdown.Item active={router.pathname == path} as={Link} href={path}>{title}</NavDropdown.Item>
 }
 
 export default function Header() {
@@ -52,17 +46,16 @@ export default function Header() {
   useEffect(() => { setSafeRendering(true); }, []);
 
   if (SafeRendering) {
-    // const date = new Date();
-    // return (<time>{String(date)}</time>);
+    // return (<time>{String(new Date())}</time>)
 
     return (<Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">{site.title}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {
-              menu.map((item, index) => (
+              mainMenu.map((item, index) => (
                 <MenuItem {...item} key={index} />
               ))
             }
