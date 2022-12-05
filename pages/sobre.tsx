@@ -1,4 +1,3 @@
-import Link from "next/link";
 // import Button from '../components/Button';
 import Contador from '../components/Contador';
 import styles from '../styles/Home.module.css'

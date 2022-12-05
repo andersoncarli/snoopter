@@ -7,8 +7,8 @@ import SSRProvider from 'react-bootstrap/SSRProvider'
 import Layout from '../components/Layout';
 
 import * as react from 'react';
-Object.assign(global, react)
-// Object.entries(react).forEach(([name, exported]) => global[name] = exported);
+// Object.assign(global, react)
+Object.entries(react).forEach(([name, exported]) => global[name] = exported);
 // console.log(Object.keys(react))
 // import * as next from 'next';
 // Object.entries(next).forEach(([name, exported]) => global[name] = exported);

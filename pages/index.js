@@ -1,3 +1,4 @@
+
 // https://www.section.io/engineering-education/build-nextjs-with-mongodb-and-deploy-on-vercel/
 // import Head from 'next/head';
 
@@ -7,16 +8,21 @@ import PostCard from '../components/PostCard';
 import styles from '../styles/Home.module.css';
 import Alert from 'react-bootstrap/Alert';
 
-// process.stdout.write('\x1Bc') // clear screen
+import useTranslation from "next-translate/useTranslation";
 
-export default function Home({ posts }) {
+export default function Home({ posts = [] }) {
+
+  console.log(posts)
+
+  let { t } = useTranslation();
   // console.log('POSTS', posts)
   return (
     <div>
+      {/* {greetings[router.locale]} */}
       <Nav />
       <Alert key='warning' variant='warning' >
         <div >
-          This is a <strong>warning</strong> alert—check it out!
+          <span>{t("common:greeting")}</span>
           <div className="float-end">
             <button type="button" className="btn-close" aria-label="Close" />
           </div>
@@ -24,17 +30,15 @@ export default function Home({ posts }) {
       </Alert>
 
       <main>
-        <div className={styles.container}> {
-          posts.length === 0 ? (
-            <h2>No added posts</h2>
-          ) : (
+        {/* <div className={styles.container}> {
+          posts.length ? (
             <ul>
               {posts.map((post, i) => (
                 <PostCard post={post} key={i} />
               ))}
             </ul>
-          )
-        } </div>
+          ) : (<h2>No added posts</h2>)
+        } </div> */}
       </main>
     </div>
   );
