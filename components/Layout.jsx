@@ -13,7 +13,7 @@ import Footer from "./Footer";
 
 export default function Layout({ children }) {
 
-  let router = useRouter();
+  // let router = useRouter();
 
   // console.log('LOCALES:', router.locales)
 
@@ -24,9 +24,7 @@ export default function Layout({ children }) {
 
       {children}
 
-      <Footer>
-        {t("common:greeting")}
-      </Footer>
+      <Footer />
     </main>
   </>)
 }

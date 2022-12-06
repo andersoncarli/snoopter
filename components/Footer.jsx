@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router'
 import useTranslation from "next-translate/useTranslation";
 
-export default function ({ children }) {
+function Footer({ children }) {
   let router = useRouter();
   let { t } = useTranslation();
-  return (
-    <footer  style={{ display: 'flex', justifyContent:'space-between' }}>
-
-      <ul style={{ display: 'flex', gap:'10px' }}>
+  return (<>
+    <hr />
+    <footer style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <ul style={{ display: 'flex', gap: '10px' }}>
         {router.locales.map((locale) => (
           <li key={locale} style={{ display: 'inline-block' }}>
             <Link href={router.asPath} locale={locale}>
@@ -16,9 +16,12 @@ export default function ({ children }) {
           </li>
         ))}
       </ul>
-      <p>{children}</p>
+      <p>{t("lang")}</p>
       <p>© 2020</p>
     </footer >
+  </>
   )
 
 }
+
+export default Footer

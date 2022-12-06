@@ -1,4 +1,7 @@
 {
-  "title": "Sobre mim",
-  "greeting": "Bom dia mundo!"
+  "title": "Sobre mim.",
+  "greeting": "Olá mundo!",
+  "about-title": "Snoopter cliente para BigData",
+  "about-introduction": "{{name}} {{year}}",
+  "lang": "Português do Brasil"
 }

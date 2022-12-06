@@ -7,7 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { useRouter } from 'next/router'
 
-import { mainMenu, site } from '../config'
+import { mainMenu, site } from '../config.js'
 
 const MenuItem = ({ title, path, subMenu, id }) => {
 

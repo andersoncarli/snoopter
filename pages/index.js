@@ -2,7 +2,6 @@
 // https://www.section.io/engineering-education/build-nextjs-with-mongodb-and-deploy-on-vercel/
 // import Head from 'next/head';
 
-import Nav from '../components/Nav';
 // import Nav from 'react-bootstrap/Nav';
 import PostCard from '../components/PostCard';
 import styles from '../styles/Home.module.css';
@@ -19,10 +18,9 @@ export default function Home({ posts = [] }) {
   return (
     <div>
       {/* {greetings[router.locale]} */}
-      <Nav />
       <Alert key='warning' variant='warning' >
         <div >
-          <span>{t("common:greeting")}</span>
+          <span>{t("greeting")}</span>
           <div className="float-end">
             <button type="button" className="btn-close" aria-label="Close" />
           </div>
@@ -30,7 +28,7 @@ export default function Home({ posts = [] }) {
       </Alert>
 
       <main>
-        {/* <div className={styles.container}> {
+        <div className={styles.container}> {
           posts.length ? (
             <ul>
               {posts.map((post, i) => (
@@ -38,7 +36,7 @@ export default function Home({ posts = [] }) {
               ))}
             </ul>
           ) : (<h2>No added posts</h2>)
-        } </div> */}
+        } </div>
       </main>
     </div>
   );
