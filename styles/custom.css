@@ -14,12 +14,27 @@ body {
 } */
 
 * {
-  /* outline: thin dotted red; */
-  /* background-color: black ; */
+  /* outline: thin solid rgba(255, 0, 0, 0.1);
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1); */
+}
+
+.next-route-announcer,
+#__next-build-watcher,
+#__next-route-announcer__ {
+  outline: none;
+  padding: 0;
+  background-color: transparent;
+  display: none;
 }
 
 /* remove rounding from cards, buttons and inputs */
-.card, .btn, .form-control, .alert { border-radius: 0; }
+.card,
+.btn,
+.form-control,
+.alert {
+  border-radius: 0;
+}
 
 .navbar-dark .navbar-nav .nav-link {
   color: rgba(255, 255, 255, 0.5);
@@ -29,6 +44,7 @@ body {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
     background: black;

@@ -17,13 +17,11 @@ export default function Layout({ children }) {
 
   // console.log('LOCALES:', router.locales)
 
-  let { t } = useTranslation();
   return (<>
     <main>
       <Header>Hello</Header>
-
       {children}
-
+      <hr />
       <Footer />
     </main>
   </>)

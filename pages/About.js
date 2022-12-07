@@ -13,7 +13,8 @@ const About = () => {
       </p>
 
       <hr className="my-4" />
-      {/* <Link to="/" className="btn btn-primary btn-lg justify-content-end" role="button">OK</Link> */}
+      <Link href="/"><button className="btn btn-primary m-3">Home</button></Link>
+      {/* <Link to="/" className="btn btn-primary btn-lg justify-content-end">Home</Link> */}
     </div>
   );
 }
