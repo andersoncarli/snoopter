@@ -45,25 +45,25 @@ export default function Posts({ posts = [] }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  // get the current environment
-  let dev = process.env.NODE_ENV !== 'production';
-  let { DEV_URL, PROD_URL } = process.env;
+// export async function getServerSideProps(ctx) {
+//   // get the current environment
+//   let dev = process.env.NODE_ENV !== 'production';
+//   let { DEV_URL, PROD_URL } = process.env;
 
-  // process.stdout.write('\x1Bc') // clear screen
-  // console.log('DEV_URL, PROD_URL', DEV_URL, PROD_URL)
+//   // process.stdout.write('\x1Bc') // clear screen
+//   // console.log('DEV_URL, PROD_URL', DEV_URL, PROD_URL)
 
-  // request posts from api
-  let response = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
+//   // request posts from api
+//   let response = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
 
-  // console.log('RESPONSE:', response.json)
-  // extract the data
-  let data = await response.json();
+//   // console.log('RESPONSE:', response.json)
+//   // extract the data
+//   let data = await response.json();
 
-  // console.log(data)
-  return {
-    props: {
-      posts: data['message'],
-    },
-  };
-}
+//   console.log(data)
+//   return {
+//     props: {
+//       posts: data['message'],
+//     },
+//   };
+// }

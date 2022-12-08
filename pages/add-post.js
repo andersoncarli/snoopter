@@ -50,8 +50,8 @@ export default function AddPost() {
 
 
   return (
-    <div styles={{marginLeft:'10px'}}>
-      <p>Add Post</p>
+    <div styles={{ marginLeft: '10px' }}>
+      {/* <p>Add Post</p> */}
       <div className="container">
         <form onSubmit={handlePost} className={styles.form}>
           {error ? (
