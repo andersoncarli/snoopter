@@ -1,5 +1,5 @@
 // https://www.kindacode.com/article/how-to-correctly-use-bootstrap-5-in-next-js/
-export default function() {
+export default function HelloBS() {
   return (
     <div className="container p-3">
       <button className="btn btn-primary m-3">KindaCode.com</button>

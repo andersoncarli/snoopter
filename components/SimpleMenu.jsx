@@ -1,14 +1,7 @@
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import LocaleDropdown from './LocaleDropDown'
 
-export default function SimpleMenu({ posts = [] }) {
-
-  // console.log(posts)
-
-  let { t } = useTranslation();
-
-  const router = useRouter()
+export default function SimpleMenu() {
 
   return (<nav className="navbar navbar-expand-sm navbar-light bg-light">
     <div className="container-fluid" bg="dark">
@@ -21,22 +14,15 @@ export default function SimpleMenu({ posts = [] }) {
       <div className="collapse navbar-collapse" id="navbarContent">
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
-            <Nav.Link as={Link} href={'/'}>Home</Nav.Link>
+          <Nav.Link as={Link} href={'/'}>Home</Nav.Link>
           </li>
           <li className="nav-item">
-            <Nav.Link as={Link} href={'/'}>Link</Nav.Link>
+          <Nav.Link as={Link} href={'/'}>Link</Nav.Link>
           </li>
         </ul>
 
-        <ul className="navbar-nav">
-          <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Menu </a>
-            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a className="dropdown-item" href="#">Action</a></li>
-              <li><a className="dropdown-item" href="#">Another action</a></li>
-            </ul>
-          </li>
-        </ul>
+        <LocaleDropdown />
+
       </div>
     </div>
   </nav>)

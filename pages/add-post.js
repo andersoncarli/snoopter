@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Posts.module.css';
 
 export default function AddPost() {
   const [title, setTitle] = useState('');
@@ -52,7 +52,7 @@ export default function AddPost() {
   return (
     <div styles={{marginLeft:'10px'}}>
       <p>Add Post</p>
-      <div className={styles.container}>
+      <div className="container">
         <form onSubmit={handlePost} className={styles.form}>
           {error ? (
             <div className={styles.formItem}>

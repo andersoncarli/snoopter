@@ -3,5 +3,7 @@
   "greeting": "Hello world",
   "about-title": "Snoopter BigData Client",
   "about-introduction": "{{name}} {{year}}",
-  "lang":"US English"
+  "en-US": "US English",
+  "pt-BR": "Brazilian Portuguese",
+  "lang": "US English"
 }

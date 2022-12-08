@@ -9,9 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 import useTranslation from "next-translate/useTranslation";
 
 export default function Posts({ posts = [] }) {
-
-  console.log(posts)
-
+  // console.log(posts)
   let { t } = useTranslation();
 
   if (!posts.length)
@@ -31,10 +29,7 @@ export default function Posts({ posts = [] }) {
       </Alert>
     )
 
-  console.log('POSTS', posts)
-
-
-  console.log('POSTS', posts)
+  // console.log('POSTS', posts)
   return (
     <div>
       <main>
